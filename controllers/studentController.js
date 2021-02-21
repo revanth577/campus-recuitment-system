@@ -10,7 +10,6 @@ exports.login=async(req,res)=>{
     try{
         const data=req.body;
         
-        
        if(!data.email||!data.password)
        {
            throw new Error("Required all fileds");
@@ -114,7 +113,7 @@ exports.allStudents=async(req,res)=>{
           console.log("all stduents")
           const students=await studentModel.find({})
           
-          console.log(students)
+          
            res.status(200).json({
             status:"success",
             data:students

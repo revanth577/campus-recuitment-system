@@ -1,4 +1,5 @@
 const mongoose=require("mongoose");
+const moment=require("moment")
 const postJobSchema=new mongoose.Schema({
 
     name:{
@@ -32,8 +33,13 @@ const postJobSchema=new mongoose.Schema({
         ,ref:'Student'
         
     },
-        ]
+        ],
+        expireDate:{
+            type:String,
+            required:true
+        }
 })
+
 
 
 const postJobModel=mongoose.model("Job",postJobSchema);

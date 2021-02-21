@@ -86,7 +86,7 @@ exports.login=async(req,res)=>{
         
         if(company)
         {
-            const token=await jwt.sign({id:company._id},SECRET_KEY,{expiresIn:'1h'});
+            const token=await jwt.sign({id:company._id},SECRET_KEY,{expiresIn:'7d'});
             company.password=undefined
             res.status(201).json({
             status:"success",
@@ -141,12 +141,77 @@ exports.postJob=async(req,res)=>{
     
 }
 
+exports.updateCompany=async(req,res)=>{
+    
+    try{
+        
+       const data=req.body;
+       const company=await comapanyModel.findById(req.id);
+       
+       if(data.name)
+       {
+           company.name=data.name
+       }
+       if(data.description)
+       {
+           company.description=data.description
+       }
+       if(data.image)
+       {
+           company.image=data.image
+       }
+       if(data.email)
+       {
+           company.email=data.email
+       }
+       
+       await company.save({validateBeforeSave:true})
+       
+       res.status(200).json({
+            status:"success",
+            
+        })
+       
+       
+    }
+    catch(err)
+    {
+        
+        res.status(200).json({
+            status:"failure",
+            message:err.message
+        })
+    }
+}
+exports.getCompany=async(req,res)=>{
+    
+    
+    try{
+        
+        
+        
+        res.status(200).json({
+            status:"success",
+            data:req.company
+        })
+        
+    }
+    catch(err)
+    {
+        res.status(200).json({
+            status:"failure",
+            message:err.message
+        }) 
+        
+    }
+    
+}
 exports.getAllJobs=async(req,res)=>{
     
     
     try{
         
-        const allJobs=await postJobModel.find({})
+        const allJobs=await postJobModel.find({}).populate("applied")
         
         res.status(201).json({
             status:"success",
@@ -192,7 +257,7 @@ exports.getStudentByPost=async(req,res)=>{
         const pid=req.params.id;
         
         
-        const post=await postJobModel.findById(pid);
+        const post=await postJobModel.findById(pid).populate("applied");
         
         const studentsApplied=post.applied;
         
