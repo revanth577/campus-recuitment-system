@@ -6,7 +6,6 @@ const {login,register,getStudent,addProject,allProjects,updateStudent,applyForJo
 const {isLogin,isStudent}=require("../controllers/auth.js")
 router.post('/login',login)
 
-
 router.post("/register",register)
 
 router.get("/all",isLogin,allStudents)
