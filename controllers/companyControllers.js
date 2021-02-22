@@ -7,8 +7,6 @@ const {SECRET_KEY}=require("../secrets.js");
 
 exports.signup=async (req,res)=>{
     
-    
-    
     try{
         
       const data=req.body;
@@ -30,7 +28,7 @@ exports.signup=async (req,res)=>{
       {
           throw new Error("Email already exists");
       }
-      
+    
       if(data.pani)
       {
           data.pani="company"
@@ -80,7 +78,6 @@ exports.login=async(req,res)=>{
         {
             throw new Error("No company Found");
         }
-        
         
          company=await comapanyModel.findOne({email:data.email,password:data.password})
         
@@ -183,6 +180,7 @@ exports.updateCompany=async(req,res)=>{
         })
     }
 }
+
 exports.getCompany=async(req,res)=>{
     
     
@@ -206,6 +204,7 @@ exports.getCompany=async(req,res)=>{
     }
     
 }
+
 exports.getAllJobs=async(req,res)=>{
     
     
@@ -234,8 +233,6 @@ exports.getPostsByCompany=async(req,res)=>{
         const company=req.company;
         
         const allPosts=await postJobModel.find({company:company._id});
-        
-        
         
         res.status(201).json({
             status:"success",
